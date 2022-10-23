@@ -139,29 +139,10 @@ Definir o conteúdo do arquivo:
 
  
 
------------------ 
 ## primeiro-pod.yaml
 
 
-apiVersion: v1
 
-kind: Pod 
-
-metadata: 
-
-  name: primeiro-pod-declarativo 
-
-spec: 
-
-  containers: 
-
-  - name: nginx-container 
-
-    image: nginx:latest 
-
----------------------------------------------------------------------
-
- 
 
 ### Aplicar o conteúdo do arquivo para criar o POD: 
 
@@ -195,38 +176,15 @@ Exemplo:
 
 kubectl delete -f ./primeiro-pod.yaml  
 
-------------
+
 
 ## Projeto Portal de Notícias: 
 
  
 
------------------------- 
+ 
 ## portal-noticias.yaml 
 
-apiVersion: v1 
-
-kind: Pod 
-
-metadata: 
-
-  name: portal-noticias 
-
-  labels: 
-
-    name: portal-noticias 
-
-spec: 
-
-  containers: 
-
-  - name: portal-noticias-container 
-
-    image: aluracursos/portal-noticias:1 
-
---------------------------------------------------------------------- 
-
- 
 
 ### Criar o POD deste arquivo: 
 
@@ -278,63 +236,10 @@ ClusterID: Serve para fazer a comunicação entre diferentes PODs dentro de um m
 
 Com os seguintes arquivos criados: 
 
------------------------------------
+
 ## pod-1.yaml  
 
-apiVersion: v1 
-
-kind: Pod 
-
-metadata: 
-
-  name: pod-1 
-
-  labels: 
-
-    app: primeiro-pod 
-
-spec: 
-
-  containers: 
-
-    - name: container-pod-1 
-
-      image: nginx:latest 
-
-      ports: 
-
-        - containerPort: 80 
-
---------------------------------------- 
-
----------------------------------------------------------------- 
-#### pod-2.yaml
-
-apiVersion: v1 
-
-kind: Pod 
-
-metadata: 
-
-  name: pod-2 
-
-  labels: 
-
-    app: segundo-pod 
-
-spec: 
-
-  containers: 
-
-    - name: container-pod-2 
-
-      image: nginx:latest 
-
-      ports: 
-
-        - containerPort: 80 
-
---------------------------------------- 
+## pod-2.yaml
 
  
 ### Vamos executar os comandos para criar os dois PODs: 
@@ -351,31 +256,8 @@ ClusterID:
 
 ### Criar o arquivo do Serviço: 
 
------------------------------------
-svc-pod-2.yaml  
 
-apiVersion: v1 
-
-kind: Service 
-
-metadata: 
-
-  name: svc-pod-2 
-
-spec: 
-
-  type: ClusterIP 
-
-  selector: 
-
-    app: segundo-pod 
-
-  ports: 
-
-    - port: 80 
-
---------------------------------------- 
-
+## svc-pod-2.yaml  
  
 
 ### Atualizar o pod-2: 
@@ -422,19 +304,9 @@ curl 10.98.104.203:80
 
 Se quiser definir a porta de acesso de escuta diferente da porta do POD, podemos fazer a seguinte configuração: 
 
--- svc-pod-2.yaml --------------- 
+## svc-pod-2.yaml
 
-... 
 
-  ports: 
-
-    - port: 9000 
-
-      targetPort: 80 
-
---------------------------------------- 
-
- 
 
 NodePort: 
 
@@ -442,35 +314,7 @@ NodePort:
 
 Criar o arquivo do Serviço: 
 
--- svc-pod-1.yaml --------------- 
-
-apiVersion: v1 
-
-kind: Service 
-
-metadata: 
-
-  name: svc-pod-1 
-
-spec: 
-
-  type: NodePort 
-
-  selector: 
-
-    app: segundo-pod 
-
-  ports: 
-
-    - port: 80 
-
-      #targetPort: 80 -- Implícito se for a mesma porta 80 
-
-  selector: 
-
-    app: primeiro-pod 
-
---------------------------------------- 
+## svc-pod-1.yaml 
 
  
 
@@ -483,16 +327,11 @@ kubectl apply -f ./svc-pod-1.yaml
 Ajustar os arquivos pod-1.yaml e svc-pod-1.yaml e atualizar os dois: 
 
  
-
-marcoscrocci@WINAPt35QiOvYXR ~/projetos/alura/kubernetes ‹main●› 
-
-╰─$ kubectl apply -f ./svc-pod-1.yaml 
+kubectl apply -f ./svc-pod-1.yaml 
 
 service/svc-pod-1 configured 
 
-╭─marcoscrocci@WINAPt35QiOvYXR ~/projetos/alura/kubernetes ‹main●› 
-
-╰─$ kubectl apply -f ./pod-1.yaml 
+kubectl apply -f ./pod-1.yaml 
 
 pod/pod-1 configured 
 
@@ -544,68 +383,15 @@ kubectl delete svc --all
 
 ### Modificações do arquivo: 
 
---------------------------------- 
+ 
 ## portal-noticias.yaml  
 
-apiVersion: v1 
-
-kind: Pod 
-
-metadata: 
-
-  name: portal-noticias 
-
-  labels: 
-
-    app: portal-noticias 
-
-spec: 
-
-  containers: 
-
-  - name: portal-noticias-container 
-
-    image: aluracursos/portal-noticias:1 
-
-    ports: 
-
-      - containerPort: 80 
-
--------------------------------------------- 
 
  
-
 ### Criar o arquivo do serviço: 
 
----------------------------------- 
+
 ## svc-portal-noticias.yaml  
-
-apiVersion: v1 
-
-kind: Service 
-
-metadata: 
-
-  name: svc-portal-noticias 
-
-spec: 
-
-  type: NodePort 
-
-  ports: 
-
-    - port: 80 
-
-      #targetPort: 80 
-
-      nodePort: 30000 
-
-  selector: 
-
-    app: portal-noticias 
-
--------------------------------------------- 
-
  
 
 ### Executar os comandos para criar o POD e o serviço: 
@@ -618,65 +404,14 @@ kubectl apply -f ./svc-portal-noticias.yaml
 
 ### Criar o POD do sistema de notícias: 
 
----------------------------------
-sistema-noticias.yaml  
 
-apiVersion: v1 
-
-kind: Pod 
-
-metadata: 
-
-  name: sistema-noticias 
-
-  labels: 
-
-    name: sistema-noticias 
-
-spec: 
-
-  containers: 
-
-  - name: sistema-noticias-container 
-
-    image: aluracursos/sistema-noticias:1 
-
-    ports: 
-
-      - containerPort: 80 
-
---------------------------------------------- 
-
+## sistema-noticias.yaml  
  
 
 ### Criar serviço do sistema de notícias: 
 
----------------------------------- 
+ 
 ## sistema-noticias.yaml   
-
- apiVersion: v1 
-
-kind: Service 
-
-metadata: 
-
-  name: svc-sistema-noticias 
-
-spec: 
-
-  type: NodePort 
-
-  ports: 
-
-    - port: 80 
-
-      nodePort: 30001 
-
-  selector: 
-
-    app: sistema-noticias 
-
----------------------------------------------  
 
  
 
@@ -694,74 +429,10 @@ kubectl apply -f ./svc-sistema-noticias.yaml
 
  
 
------------------
+
 ## db-noticias.yaml  
 
-
-apiVersion: v1 
-
-kind: Pod 
-
-metadata: 
-
-  name: db-noticias 
-
-  labels: 
-
-    app: db-noticias 
-
-spec: 
-
-  containers: 
-
-  - name: db-noticias-container 
-
-    image: aluracursos/mysql-db:1 
-
-    ports: 
-
-      - containerPort: 3306 
-
-    env: 
-
-      - name: "MYSQL_ROOT_PASSWORD" 
-
-        value: "q1w2e3r4" 
-
-      - name: "MYSQL_DATABASE" 
-
-        value: "empresa" 
-
-      - name: "MYSQL_PASSWORD" 
-
-        value: "q1w2e3r4" 
-
------------------------------------ 
-
----------------------------------
-## svc-db-noticias.yaml ---- 
-
-apiVersion: v1 
-
-kind: Service 
-
-metadata: 
-
-  name: svc-db-noticias 
-
-spec: 
-
-  type: ClusterIP 
-
-  ports: 
-
-    - port: 3306 
-
-  selector: 
-
-    app: db-noticias 
-
------------------------------------  
+## svc-db-noticias.yaml   
 
  
 
@@ -878,28 +549,9 @@ mysql> show databases;
 ### Criar um config map: 
 
  
----------------------------------
 ## db-configmap.yaml 
 
-apiVersion: v1 
 
-kind: apiVersion: v1 
-
-kind: ConfigMap 
-
-metadata: 
-
-  name: db-configmap 
-
-data: 
-
-  MYSQL_ROOT_PASSWORD: q1w2e3r4 
-
-  MYSQL_DATABASE: empresa 
-
-  MYSQL_PASSWORD: q1w2e3r4 
-
---------------------------------- 
 
 kubectl apply -f ./db-configmap.yaml 
 
@@ -912,40 +564,10 @@ Kubectl get configmap
 kubectl describe configmap db-configmap 
 
  
------------------
+
 ## db-noticias.yaml 
 
-apiVersion: v1 
 
-kind: Pod 
-
-metadata: 
-
-  name: db-noticias 
-
-  labels: 
-
-    app: db-noticias 
-
-spec: 
-
-  containers: 
-
-  - name: db-noticias-container 
-
-    image: aluracursos/mysql-db:1 
-
-    ports: 
-
-      - containerPort: 3306 
-
-    envFrom: 
-
-      - configMapRef: 
-
-          name: db-configmap 
-
----------------------------------
  
 
 kubectl delete pod db-noticias 
@@ -979,69 +601,19 @@ svc-portal-noticias    NodePort    10.111.19.162   <none>        80:30000/TCP   
 svc-sistema-noticias   NodePort    10.105.213.53   <none>        80:30001/TCP   4h26m   app=sistema-noticias 
 
  
------------------
+
 ## sistema-configmap.yaml 
 
-apiVersion: v1 
-
-kind: ConfigMap 
-
-metadata: 
-
-  name: sistema-configmap 
-
-data: 
-
-  HOST_DB: 10.99.152.249:3306 
-
-  USER_DB: root 
-
-  PASS_DB: q1w2e3r4 
-
-  DATABASE_DB: empresa 
-
- 
------------------
  
 
 kubectl apply -f ./sistema-configmap.yaml 
 
  
------------------
+
 
 ## sistema-noticias.yaml 
 
-apiVersion: v1 
 
-kind: Pod 
-
-metadata: 
-
-  name: sistema-noticias 
-
-  labels: 
-
-    app: sistema-noticias 
-
-spec: 
-
-  containers: 
-
-    - name: sistema-noticias-container 
-
-      image: aluracursos/sistema-noticias:1 
-
-      ports: 
-
-        - containerPort: 80 
-
-      envFrom: 
-
-        - configMapRef: 
-
-            name: sistema-configmap 
-
- ---------------------------------
 
  
 
@@ -1052,68 +624,38 @@ kubectl delete pod sistema-noticias
 kubectl apply -f ./sistema-noticias.yaml 
 
  
------------------
+
 
 ## portal-configmap.yaml 
 
-apiVersion: v1 
 
-kind: ConfigMap 
-
-metadata: 
-
-  name: portal-configmap 
-
-data: 
-
-  IP_SISTEMA: 192.168.49.2:30001 
-
------------
 
 kubectl apply -f ./portal-configmap.yaml 
 
  
 
------------------
 
 ## portal-noticias.yaml 
 
-apiVersion: v1 
-
-kind: Pod 
-
-metadata: 
-
-  name: portal-noticias 
-
-  labels: 
-
-    app: portal-noticias 
-
-spec: 
-
-  containers: 
-
-  - name: portal-noticias-container 
-
-    image: aluracursos/portal-noticias:1 
-
-    ports: 
-
-      - containerPort: 80 
-
-    envFrom: 
-
-      - configMapRef: 
-
-          name: portal-configmap 
-
----------------------------------
-
- 
-
+ss
 kubectl delete pod portal-noticias 
 
  
 
 kubectl apply -f ./portal-noticias.yaml  
+
+
+## ReplicaSets
+
+Criar o arquivo:
+## portal-noticias-replicaset.yaml 
+
+kubectl apply -f ./portal-noticias-replicaset.yaml
+
+### Listar os ReplicaSets:
+
+kubectl get replicasets -o wide
+
+### Excluir os ReplicaSets:
+kubectl delete replicaset portal-noticias-replicaset
+
