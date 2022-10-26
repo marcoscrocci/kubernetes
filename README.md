@@ -659,3 +659,47 @@ kubectl get replicasets -o wide
 ### Excluir os ReplicaSets:
 kubectl delete replicaset portal-noticias-replicaset
 
+
+## Deployments
+
+Criar o arquivo:
+
+## nginx-deployment.yaml
+
+kubectl apply -f ./nginx-deployment.yaml
+
+## Listar os pods criados com o Deployment:
+
+kubectl get pods -o wide
+
+## Listar os deployments:
+
+kubectl get deployments -o wide
+
+## Exluir um deployment:
+
+kubectl delete deployment nginx-deployment
+
+## Validar e verificar o fluxo:
+
+kubectl rollout history deployment nginx-deployment
+
+## Mudada a versão do nginx de stable para lastest e atualizar o deployment:
+
+kubectl apply -f ./nginx-deployment.yaml --record
+
+## Anotar as alterações da nova release:
+
+kubectl annotate deployment nginx-deployment kubernetes.io/change-cause="Definindo a imagem com versão lastest"
+
+## Verificar a nova anotação:
+
+kubectl rollout history deployment nginx-deployment
+
+## Descrever um dos pods:
+
+kubectl describe pod nginx-deployment-5854cd58bc-5ptl9
+
+## Efetuando um rollback para uma revision anterior:
+kubectl rollout undo deployment nginx-deployment --to-revision=2
+
