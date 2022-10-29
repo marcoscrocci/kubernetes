@@ -703,3 +703,41 @@ kubectl describe pod nginx-deployment-5854cd58bc-5ptl9
 ## Efetuando um rollback para uma revision anterior:
 kubectl rollout undo deployment nginx-deployment --to-revision=2
 
+
+## Remover os deployments replicados:
+kubectl delete deployment nginx-deployment
+kubectl delete -f ./portal-noticias-replicaset.yaml
+
+## Alterar o arquivo de ReplicaSet para Deployment:
+Podemos criar outro arquivo igual ou renomear substituindo no conteúdo a palavra ReplicaSet para Deployment.
+
+## Comando para criar os deployments:
+kubectl apply -f ./portal-noticias-deployment.yaml
+
+## Verificar a revisão do versionamento do deployment
+kubectl rollout history deployment portal-noticias-deployment      
+deployment.apps/portal-noticias-deployment 
+REVISION  CHANGE-CAUSE
+1         <none>
+
+## Criar uma anotação do versionamento:
+kubectl annotate deployment portal-noticias-deployment kubernetes.io/change-cause="Criando portal de noticias versao 1" 
+kubectl rollout history deployment portal-noticias-deployment
+
+## Criar o arquivo sistema-noticias-deployment.yaml
+kubectl delete pod sistema-noticias
+kubectl apply -f ./sistema-noticias-deployment.yaml
+kubectl get pods -o wide                           
+kubectl annotate deployment sistema-noticias-deployment kubernetes.io/change-cause="Criando sistema de noticias versao 1" 
+kubectl rollout history deployment sistema-noticias-deployment
+
+## Criar o arquivo db-noticias-deployment.yaml
+kubectl delete pod db-noticias
+kubectl apply -f ./db-noticias-deployment.yaml
+kubectl get pods -o wide
+kubectl annotate deployment db-noticias-deployment kubernetes.io/change-cause="Criando banco de dados de noticias versao 1" 
+kubectl rollout history deployment db-noticias-deployment
+
+Qual comando podemos utilizar para voltar um Deployment para uma revisão específica?
+kubectl rollout undo deployment <nome do deployment> --to-revision=<versão a ser retornada>
+
