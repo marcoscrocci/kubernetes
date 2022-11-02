@@ -7,15 +7,18 @@ spec:
     - name: nginx-container
       image: nginx:latest
       volumeMounts:
-        - mountPath: /volume
-          name: volume
-    - name: nginx-stable-container
-      image: nginx:stable
+        - mountPath: /volume-dentro-do-container
+          name: primeiro-volume
+    - name: jenkins-container
+      image: jenkins:2.46.2-alpine
       volumeMounts:
-        - mountPath: /volume
-          name: volume
+        - mountPath: /volume-dentro-do-container
+          name: primeiro-volume
   volumes:
-    - name: volume
+    - name: primeiro-volume
       hostPath:
         path: /home/volume-container
-        type: DirectoryOrCreate
+        type: Directory
+
+# Windows path: /C/Users/marco/temp
+# Linux   path: /home/volume-container

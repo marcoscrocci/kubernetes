@@ -8,6 +8,11 @@ https://kubernetes.io/docs/tasks/tools/
 
 https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/ 
 
+## Windows
+
+https://www.docker.com/products/docker-desktop/
+
+Depois de instalar o Docker Desktop, devemos ativar o Kubernetes nas configurações.
  
 ### Nota: Em 11/10/2022 os comandos eram diferentes do curso da Alura: 
 
@@ -742,6 +747,11 @@ Qual comando podemos utilizar para voltar um Deployment para uma revisão espec�
 kubectl rollout undo deployment <nome do deployment> --to-revision=<versão a ser retornada>
 
 ## Criar o arquivo pod-volume.yaml
+
+Diferenças entre o Windows e o Linux para o atributo path:
+Windows path: /C/Users/Daniel/Desktop/primeiro-volume
+Linux   path: /home/volume-container
+
 minikube ssh
 cd /home/
 sudo mkdir primeiro-volume
