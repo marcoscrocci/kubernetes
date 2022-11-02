@@ -741,3 +741,21 @@ kubectl rollout history deployment db-noticias-deployment
 Qual comando podemos utilizar para voltar um Deployment para uma revisão específica?
 kubectl rollout undo deployment <nome do deployment> --to-revision=<versão a ser retornada>
 
+## Criar o arquivo pod-volume.yaml
+minikube ssh
+cd /home/
+sudo mkdir primeiro-volume
+exit
+kubectl apply -f ./pod-volume.yaml
+kubectl get pods -o wide
+kubectl exec -it pod-volume --container nginx-container -- bash
+
+cd volume-dentro-do-container
+touch arquivo.txt
+
+Verificar na pasta do host, para verificar a presença do mesmo arquivo.
+Verificar na mesma pasta do outro container a presença do mesmo arquivos.
+
+kubectl describe pod pod-volume
+
+
