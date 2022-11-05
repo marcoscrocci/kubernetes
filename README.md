@@ -768,4 +768,45 @@ Verificar na mesma pasta do outro container a presença do mesmo arquivos.
 
 kubectl describe pod pod-volume
 
+https://github.com/alura-cursos/kubernetes-parte2
+
+No terminal do Google Cloud Plataform:
+
+cat > pv.yaml
+<conteúdo do arquivo>
+
+kubectl apply -f pv.yaml
+
+kubectl get pv
+
+cat > pvc.yaml
+<conteúdo do arquivo>
+
+kubectl apply -f pvc.yaml
+
+kubectl get pvc
+
+cat > pod-pv.yaml
+<conteúdo do arquivo>
+
+kubectl apply -f pod-pv.yaml
+
+kubectl get pods
+
+kubectl exec -it pod-pv -- bash
+
+cd volume-dentro-do-container
+touch arquivo-persistente.txt
+
+kubectl delete pod pod-pv.yaml
+
+kubectl get pods
+
+kubectl apply -f pod-pv.yaml
+
+kubectl exec -it pod-pv -- bash
+
+cd volume-dentro-do-container
+
+ls
 
