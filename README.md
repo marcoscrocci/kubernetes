@@ -770,6 +770,8 @@ kubectl describe pod pod-volume
 
 https://github.com/alura-cursos/kubernetes-parte2
 
+## Utilizando o Google Cloud Plataform
+
 No terminal do Google Cloud Plataform:
 
 cat > pv.yaml
@@ -798,6 +800,8 @@ kubectl exec -it pod-pv -- bash
 cd volume-dentro-do-container
 touch arquivo-persistente.txt
 
+### Mostrando que ao remover o POD e criar novamente, o arquivo persistido no disco retorna para o POD.
+
 kubectl delete pod pod-pv.yaml
 
 kubectl get pods
@@ -809,4 +813,56 @@ kubectl exec -it pod-pv -- bash
 cd volume-dentro-do-container
 
 ls
+
+## Utilizando Storage Classes
+
+cat > sc.yaml
+<conteúdo do arquivo>
+
+kubectl apply -f sc.yaml
+
+kubectl get sc
+
+cat > pvc-sc.yaml
+<conteúdo do arquivo>
+
+kubectl apply -f pvc-sc.yaml
+
+kubectl get pvc
+
+kubectl get pv
+
+Criado um pv com STATUS = Bound e vinculado ao pvc-2
+
+cat > pod-sc.yaml
+<conteúdo do arquivo>
+
+kubectl apply -f pod-sc.yaml
+
+kubectl get pods --watch
+
+kubectl exec -it pod-sc -- bash
+ls
+cd volume-dentro-do-container
+ls
+touch arquivo-sc.txt
+exit 
+
+kubectl delete -f pod-sc.yaml
+kubectl apply -f pod-sc.yaml
+
+kubectl get pods --watch
+
+### Deve aparecer o arquivo-sc.txt restaurado.
+
+kubectl exec -it pod-sc -- bash
+ls
+cd volume-dentro-do-container
+ls
+
+## Remover os recursos
+
+kubectl delete pod --all
+kubectl delete pvc --all
+kubectl delete sc --all
 
