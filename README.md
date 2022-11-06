@@ -866,3 +866,36 @@ kubectl delete pod --all
 kubectl delete pvc --all
 kubectl delete sc --all
 
+## StatefulSets
+
+sistema-noticias-statefulset.yaml
+
+kubectl apply -f ./sistema-noticias-statefulset.yaml
+
+kubectl get pods -o wide
+
+kubectl delete deployments sistema-noticias-deployment
+
+kubectl delete pod sistema-noticias-statefulset-0
+
+kubectl apply -f ./imagens-pvc.yaml
+
+kubectl apply -f ./sessao-pvc.yaml
+
+kubectl get pvc
+
+kubectl get pv
+
+kubectl get sc
+
+Cadastrar umas duas ou mais notícias e apagar o pod. Como o statefulset também funciona como um replicaset, o pod deve ser recriado.
+
+kubectl delete pod sistema-noticias-statefulset-0 && kubectl get pods --watch
+
+Desta vez as imagens devem ser restauradas e a sessão também.
+
+kubectl describe pod sistema-noticias-statefulset-0
+
+
+
+
