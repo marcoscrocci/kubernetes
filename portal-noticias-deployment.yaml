@@ -17,7 +17,14 @@ spec:
         envFrom:
           - configMapRef:
               name: portal-configmap
-  replicas: 1
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80
+          periodSeconds: 10
+          failureThreshold: 3
+          initialDelaySeconds: 20
+  replicas: 3
   selector:
     matchLabels:
       app: portal-noticias
