@@ -946,3 +946,59 @@ kubectl get hpa
 
 kubectl describe hpa portal-noticias-hpa
 
+## Utilizando o HPA no Windows
+
+Na aula foi baixado um arquivo chamado components.yaml, no site:
+https://github.com/kubernetes-sigs/metrics-server/releases
+
+Atualmente este arquivo está diferente do arquivo da aula, então eu baixei o arquivo da aula:
+https://github.com/alura-cursos/kubernetes-parte2/blob/Aula5/components.yaml
+
+kubectl apply -f ./components.yaml
+
+kubectl get hpa
+
+kubectl describe hpa portal-noticias-hpa
+
+Para efetuar um teste de stress no servidor, foi disponibilizado o arquivo stress.sh
+No Windows, ele pode ser executado pelo git bash
+
+Executar o teste:
+sh stress.sh 0.001 > out.txt
+
+Na aula, este arquivo foi executado em dois terminais do git bash.
+
+Foi mostrado com 3 terminais, que chegou a abrir 3 replicas.
+
+
+## Utilizando o HPA no Windows
+
+Na aula é dito que no caso do Linux, temos o minikube e não precisamos do components.yaml. 
+Nele exitem as extensões (addons) que fazer essas métricas de cpu, por exemplo.
+
+https://kubernetes.io/docs/tutorials/hello-minikube/
+
+Para mostrar a liste de addons:
+minikube addons list
+
+Nesta lista podemos observer que temos o servidor de métricas: metrics-server
+
+Antes de habilitar, consultar os PODs e o HPA:
+kubectl get pods
+kubectl get hpa
+
+Para habilitar este addon, podemos executar o comando:
+minikube addons enable metrics-server
+You can view the list of minikube maintainers at: https://github.com/kubernetes/minikube/blob/master/OWNERS
+    ▪ Using image k8s.gcr.io/metrics-server/metrics-server:v0.6.1
+🌟  The 'metrics-server' addon is enabled
+
+minikube addons list
+| metrics-server              | minikube | enabled ✅   | Kubernetes                     |
+
+Executar o stress no Linux:
+bash stress.sh 0.001 > out.txt
+
+Visualizar os recursos se modificando:
+kubectl get hpa --watch
+
