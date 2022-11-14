@@ -913,3 +913,22 @@ kubectl apply -f ./sistema-noticias-statefulset.yaml
 kubectl describe pod sistema-noticias-statefulset
 
 kubectl get pods -o wide
+
+## Utilizando ReadinessProbe
+
+Ajustar o arquivo portal-noticias-deployment
+
+kubectl apply -f ./portal-noticias-deployment.yaml
+
+kubectl describe pod portal-noticias-deployment
+
+kubectl get pods -o wide
+
+Fazer o mesmo ajuste no arquivo sistema-noticias-statefulset.yaml
+
+kubectl apply -f ./sistema-noticias-statefulset.yaml
+
+kubectl describe pod sistema-noticias-statefulset
+
+kubectl get pods -o wide
+
