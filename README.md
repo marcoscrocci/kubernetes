@@ -932,3 +932,17 @@ kubectl describe pod sistema-noticias-statefulset
 
 kubectl get pods -o wide
 
+## Escalando PODs automaticamente
+
+Ajustar o arquivo portal-noticias-deployment
+
+Criar um novo arquivo portal-noticias-hpa.yaml
+
+kubectl apply -f ./portal-noticias-deployment.yaml
+
+kubectl apply -f ./portal-noticias-hpa.yaml
+
+kubectl get hpa
+
+kubectl describe hpa portal-noticias-hpa
+
