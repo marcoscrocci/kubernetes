@@ -1,5 +1,6 @@
 kubectl delete -f ./portal-noticias-deployment.yaml
 kubectl delete -f ./sistema-noticias-statefulset.yaml
+kubectl delete -f ./db-noticias-deployment.yaml
 kubectl delete pods --all
 kubectl delete svc --all
 kubectl delete configmap --all
