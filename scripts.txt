@@ -7,7 +7,7 @@ kubectl delete configmap --all
 kubectl apply -f ./db-configmap.yaml
 kubectl apply -f ./sistema-configmap.yaml
 kubectl apply -f ./portal-configmap.yaml
-kubectl apply -f ./db-noticias.yaml
+kubectl apply -f ./db-noticias-deployment.yaml
 kubectl apply -f ./imagens-pvc.yaml
 kubectl apply -f ./sessao-pvc.yaml
 kubectl apply -f ./portal-noticias-deployment.yaml
